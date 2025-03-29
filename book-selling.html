@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Bazaar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #6c63ff;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5); /* Glowing text effect */
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #444;
+            padding: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: color 0.3s ease, transform 0.2s ease-in-out;
+        }
+
+        nav a:hover {
+            color: #6c63ff;
+            transform: scale(1.1);
+            text-shadow: 0 0 15px #6c63ff; /* Glowing effect */
+        }
+
+        .search-bar {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .search-bar input {
+            width: 60%;
+            padding: 10px;
+            border: 2px solid #6c63ff;
+            border-radius: 5px;
+            font-size: 1rem;
+            box-shadow: 0px 0px 10px rgba(0, 0, 255, 0.2); /* Glowing effect on search box */
+            transition: box-shadow 0.3s ease;
+        }
+
+        .search-bar input:focus {
+            box-shadow: 0px 0px 20px rgba(0, 0, 255, 0.6);
+        }
+
+        .search-bar button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            background-color: #6c63ff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2); /* 3D effect on button */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .search-bar button:hover {
+            background-color: #5a54e7;
+            transform: translateY(-2px); /* Slight lift for 3D effect */
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3); /* Glowing 3D effect */
+        }
+
+        .category {
+            padding: 20px;
+            margin: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .category:hover {
+            box-shadow: 0 0 20px rgba(0, 0, 255, 0.4);
+        }
+
+        .category h3 {
+            border-bottom: 3px solid #6c63ff;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); /* Glow effect on section titles */
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .book {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .book:hover {
+            transform: translateY(-5px); /* Slight 3D effect */
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3); /* Glow and lift effect */
+        }
+
+        .book img {
+            max-width: 80%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .book h4 {
+            margin: 10px 0;
+            font-size: 1.2rem;
+        }
+
+        .book p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .book button {
+            padding: 10px;
+            background-color: #6c63ff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .book button:hover {
+            background-color: #5a54e7;
+            transform: translateY(-2px); /* 3D effect */
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3); /* Glowing effect */
+        }
+
+        #cart-section {
+            padding: 20px;
+            margin: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        #cart-section h3 {
+            margin-bottom: 20px;
+        }
+
+        .cart-items div {
+            padding: 10px;
+            background-color: #f4f4f9;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-items div img {
+            max-width: 50px;
+            margin-right: 10px;
+            border-radius: 5px;
+        }
+
+        .cart-items div span {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .total-amount {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #444;
+            color: #fff;
+            font-size: 0.9rem;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3); /* Glow effect on footer text */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Book Bazaar</h1>
+    </header>
+
+    <nav>
+        <a href="#fiction">Fiction</a>
+        <a href="#non-fiction">Non-Fiction</a>
+        <a href="#sci-fi">Sci-Fi</a>
+        <a href="#romance">Romance</a>
+    </nav>
+
+    <div class="search-bar">
+        <input type="text" id="search-input" placeholder="Search for a book...">
+        <button onclick="searchBook()">Search</button>
+    </div>
+
+    <!-- Fiction Section -->
+    <section id="fiction" class="category">
+        <h3>Fiction</h3>
+        <div class="book-grid">
+            <div class="book" data-title="the song of achiles" data-price="15">
+                <img src="fiction-1.jpg" alt="To Kill a Mockingbird">
+                <h4>the song of achiles</h4>
+                <p>madelin miller</p>
+                <h4>$15</h4>
+                <button onclick="addToCart(this)">Add to Cart</button>
+            </div>
+            <div class="book" data-title="the both die and the end" data-price="10">
+                <img src="fiction-2.jpg" alt="the both die and the end">
+                <h4>the both die and the end</h4>
+                <p>adam silvera</p>
+                <h4>$10</h4>
+                <button onclick="addToCart(this)">Add to Cart</button>
+            </div>
+        </div>
+    </section>
+    <section id="non-fiction" class="category">
+        <h3>Non-Fiction</h3>
+        <div class="book-grid">
+            <div class="book" data-title="fourth wing" data-price="15">
+                <img src="non-fiction-1.jpg" alt="fourth wing">
+                <h4>fourth wing</h4>
+                <p>rebeca yaros</p>
+                <h4>$15</h4>
+                <button onclick="addToCart(this)">Add to Cart</button>
+            </div>
+            <div class="book" data-title="the cruel prince" data-price="10">
+                <img src="non-fiction-2.jpg" alt="1984">
+                <h4>the cruel prince</h4>
+                <p>holy black</p>
+                <h4>$10</h4>
+                <button onclick="addToCart(this)">Add to Cart</button>
+            </div>
+        </div>
+    </section>
+    <section id="sci-fi" class="category">
+        <h3>Sci-Fi</h3>
+        <div class="book-grid">
+            <div class="book" data-title="dune" data-price="15">
+                <img src="sci-fi-1.jpg" alt="To Kill a Mockingbird">
+                <h4>dune</h4>
+                <p>frenk herbet</p>
+                <h4>$15</h4>
+                <button onclick="addToCart(this)">Add to Cart</button>
+            </div>
+            <div class="book" data-title="infinet world" data-price="10">
+                <img src="sci-fi-2.jpg" alt="1984">
+                <h4>infinet world</h4>
+                <p>By George Orwell</p>
+                <h4>$10</h4>
+                <button onclick="addToCart(this)">Add to Cart</button>
+            </div>
+        </div>
+    </section>
+    <section id="romance" class="category">
+        <h3>romance</h3>
+        <div class="book-grid">
+            <div class="book" data-title="me before you" data-price="15">
+                <img src="rom-1.jpg" alt="To Kill a Mockingbird">
+                <h4>me before you</h4>
+                <p>emily clark</p>
+                <h4>$15</h4>
+                <button onclick="addToCart(this)">Add to Cart</button>
+            </div>
+            <div class="book" data-title="the fualt in your star" data-price="10">
+                <img src="rom-2.jpg" alt="1984">
+                <h4>the fualt in your star</h4>
+                <p>By George Orwell</p>
+                <h4>$10</h4>
+                <button onclick="addToCart(this)">Add to Cart</button>
+            </div>
+        </div>
+    </section>
+    
+
+    <!-- Cart Section -->
+    <div id="cart-section">
+        <h3>Your Cart</h3>
+        <div class="cart-items"></div>
+        <div class="total-amount">
+            Total: $<span id="total-amount">0</span>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Book Bazaar. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const cart = [];
+
+        // Search Functionality
+        function searchBook() {
+            const searchTerm = document.getElementById("search-input").value.toLowerCase();
+            const books = document.querySelectorAll(".book");
+
+            books.forEach(book => {
+                const title = book.getAttribute("data-title").toLowerCase();
+                if (title.includes(searchTerm)) {
+                    book.style.display = "block";
+                } else {
+                    book.style.display = "none";
+                }
+            });
+        }
+
+        // Add to Cart
+        function addToCart(button) {
+            const book = button.parentElement;
+            const title = book.getAttribute("data-title");
+            const price = parseFloat(book.getAttribute("data-price"));
+            const image = book.querySelector("img").src;
+
+            // Add to cart array
+            cart.push({ title, price, image });
+
+            // Update cart section
+            const cartSection = document.getElementById("cart-section");
+            const cartItems = document.querySelector(".cart-items");
+            cartItems.innerHTML = ""; // Clear previous items
+            let totalAmount = 0;
+
+            cart.forEach(item => {
+                const div = document.createElement("div");
+                div.innerHTML = `<img src="${item.image}" alt="${item.title}"> <span>${item.title} - $${item.price}</span>`;
+                cartItems.appendChild(div);
+                totalAmount += item.price;
+            });
+
+            // Update total amount
+            document.getElementById("total-amount").textContent = totalAmount.toFixed(2);
+
+            // Show the cart section
+            cartSection.style.display = "block";
+        }
+    </script>
+</body>
+</html>
